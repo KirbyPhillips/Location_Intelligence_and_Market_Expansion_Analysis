@@ -1,4 +1,8 @@
--- Cupcakes and Coffee Analysis 
+CREATE DATABASE cupcakes_and_coffee_db;
+
+USE cupcakes_and_coffee_db;
+
+-- Cupcakes and Coffee (CC) Analysis 
 SELECT * FROM city;
 SELECT * FROM products;
 SELECT * FROM customers;
@@ -14,8 +18,7 @@ ALTER TABLE sales DROP COLUMN sale_date;
 ALTER TABLE sales CHANGE sale_date_clean sale_date DATE;
 --
 
--- 1. Cupcakes and Coffee Consumers Count: How many people in each city are estimated to consume coffee, given that 25% of 
--- the population does?
+-- 1. Cupcakes and Coffee Consumers Count: How many people in each city are estimated to consume coffee, given that 25% of the population does?
 SELECT 
 	city_name,
 	ROUND(
@@ -62,8 +65,7 @@ ON s.product_id = p.product_id
 GROUP BY 1
 ORDER BY 2 DESC;
 
--- 4. Average Sales Amount per City: What is the average sales amount per customer in each city?
--- city and total sales; number of customers in each city
+-- 4. Average Sales Amount per City: What is the average sales amount per customer in each city? [city and total sales; number of customers in each city]
 SELECT
   ci.city_name,
   ROUND(SUM(s.total), 2) AS total_revenue,
@@ -138,8 +140,7 @@ WHERE
 	s.product_id IN (1, 2, 3, 4, 5, 6, 7)
 GROUP BY 1;
 
--- 8. Avg Sale vs Rent: Find each city and their avg sale per customer and avg rent per customer
-
+-- 8. Avg Sale vs Rent: Find each city and their avg sale per customer and avg rent per customer.
 WITH city_table AS (
 	SELECT 
 		ci.city_name,
@@ -176,8 +177,7 @@ FROM city_rent AS cr
          ON cr.city_name = ct.city_name
 ORDER BY avg_sale_per_cust DESC;
 
--- 9. Monthly Sales Growth:
--- Sales growth rate: Calculate the % growth (or decline) in sales over different time periods (monthly) by each city
+-- 9. Monthly Sales Growth: Sales growth rate: Calculate the % growth (or decline) in sales over different time periods (monthly) by each city.
 WITH monthly_sales AS (
 	SELECT 
 		ci.city_name,
@@ -216,8 +216,7 @@ SELECT
 FROM growth_ratio
 WHERE last_month_sale IS NOT NULL;
 
--- 10. Market Potential Analysis: Identify top 3 cities based on highest sales. Return the city name, total sales, 
--- total rent, total customers, estimated CC consumers
+-- 10. Market Potential Analysis: Identify top 3 cities based on highest sales. Return the city name, total sales, total rent, total customers, estimated CC consumers.
 WITH city_table AS (
 	SELECT 
 		ci.city_name,
@@ -257,3 +256,5 @@ FROM city_rent AS cr
 	JOIN city_table AS ct 
          ON cr.city_name = ct.city_name
 ORDER BY ct.total_revenue DESC;
+
+-- END OF ANALYSIS
